@@ -26,21 +26,23 @@ export default {
     }
   },
   methods: {
-    handleLogin () {
-      this.$http
-        .post(`login`, this.formdata)
-        .then(res => {
-          const {data: {data, meta: {msg, status}}} = res
-          if (status === 200) {
-            // 成功让其跳转
-            this.$router.push({
-              name: 'home'
-            })
-          } else {
-            // 失败提示框
-            this.$message.error(msg)
-          }
+    async handleLogin () {
+      // async await 让异步代码看着跟同步一样 好处：没有函数嵌套
+      // 在异步操作的前面加await 在离异步操作最近的函数前加async
+      const res = await this.$http.post(`login`, this.formdata)
+
+      const {data: {data: {token}, meta: {msg, status}}} = res
+      if (status === 200) {
+        // 成功让其跳转 并将token保存到 localStorage中 存值
+        localStorage.setItem("token",token)
+        // 取值    const adminT = localStorage.getItem("token")
+        this.$router.push({
+          name: 'home'
         })
+      } else {
+        // 失败提示框
+        this.$message.error(msg)
+      }
     }
   }
 }
