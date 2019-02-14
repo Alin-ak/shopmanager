@@ -34,7 +34,7 @@ export default {
       const {data: {data: {token}, meta: {msg, status}}} = res
       if (status === 200) {
         // 成功让其跳转 并将token保存到 localStorage中 存值
-        localStorage.setItem("token",token)
+        localStorage.setItem('token', token)
         // 取值    const adminT = localStorage.getItem("token")
         this.$router.push({
           name: 'home'
