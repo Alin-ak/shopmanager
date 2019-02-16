@@ -10,13 +10,13 @@ import App from './App'
 import router from './router'
 // 导入axios
 import axios from 'axios'
+// 导入日期处理格式 注册过滤器
+import moment from 'moment'
 // 设置基础url
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
 // Vue原型上添加axios属性
 Vue.prototype.$http = axios
-// 导入日期处理格式 注册过滤器
-import moment from 'moment'
-Vue.filter('frmdate',(v)=>{
+Vue.filter('frmdate', (v) => {
   return moment(v).format('YYYY-MM-DD')
 })
 
