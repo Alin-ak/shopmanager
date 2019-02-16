@@ -14,6 +14,11 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
 // Vue原型上添加axios属性
 Vue.prototype.$http = axios
+// 导入日期处理格式 注册过滤器
+import moment from 'moment'
+Vue.filter('frmdate',(v)=>{
+  return moment(v).format('YYYY-MM-DD')
+})
 
 Vue.use(ElementUI)
 
