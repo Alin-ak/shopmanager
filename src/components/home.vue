@@ -115,7 +115,7 @@ export default {
   methods: {
     exitHome () {
       if (confirm('确定要退出吗?')) {
-        // 跳转到登陆页 
+        // 跳转到登陆页
         this.$router.push({
           name: 'login'
         })

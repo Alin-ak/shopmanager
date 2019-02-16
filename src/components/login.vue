@@ -30,9 +30,9 @@ export default {
       // async await 让异步代码看着跟同步一样 好处：没有函数嵌套
       // 在异步操作的前面加await 在离异步操作最近的函数前加async
       const res = await this.$http.post(`login`, this.formdata)
-      
-      const {data,meta:{msg,status}} = res.data
-      // console.log(data)     
+
+      const {data, meta: {msg, status}} = res.data
+      // console.log(data)
       if (status === 200) {
         // 成功让其跳转 并将token保存到 localStorage中 存值
         // localStorage.setItem('token', token)

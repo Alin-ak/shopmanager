@@ -71,65 +71,65 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      query: "",
+      query: '',
       list: [],
       pagenum: 1,
       pagesize: 2,
       total: -1,
-      dialogFormVisible:false,
-      formdata:{
-          username:'',
-          password:'',
-          email:'',
-          mobile:''
+      dialogFormVisible: false,
+      formdata: {
+        username: '',
+        password: '',
+        email: '',
+        mobile: ''
       }
-    };
+    }
   },
-  created() {
-    this.getTableData();
+  created () {
+    this.getTableData()
   },
   methods: {
     //   点击添加用户弹出对话框
-    showAddUser() {
-        this.dialogFormVisible = true
+    showAddUser () {
+      this.dialogFormVisible = true
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       //   页数改变事件
-      this.pagenum = 1;
-      this.pagenum = val;
-      this.getTableData();
+      this.pagenum = 1
+      this.pagenum = val
+      this.getTableData()
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       // 条数改变事件
-      this.pagesize = 1;
-      this.pagesize = val;
-      this.getTableData(val);
+      this.pagesize = 1
+      this.pagesize = val
+      this.getTableData(val)
     },
     // 获取数据
-    async getTableData() {
+    async getTableData () {
       // 必须携带token
-      const AUTH_TOKEN = localStorage.getItem("token");
-      this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+      const AUTH_TOKEN = localStorage.getItem('token')
+      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
       const res = await this.$http.get(
         `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${
           this.pagesize
         }`
-      );
+      )
       const {
         data,
-        meta: { msg, status }
-      } = res.data;
-      console.log(data);
+        meta: { status }
+      } = res.data
+      console.log(data)
       if (status === 200) {
         // 说明有token 赋值给list
-        this.list = data.users;
-        this.total = data.total;
+        this.list = data.users
+        this.total = data.total
       }
     }
   }
-};
+}
 </script>
 
 <style>
