@@ -8,14 +8,26 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/reset.css'
 import App from './App'
 import router from './router'
-// 导入axios
-import axios from 'axios'
-// 导入日期处理格式 注册过滤器
+
+// 自定义面包屑导航组件
+import CusBread from '@/components/cusBread.vue'
+
+// // 添加请求拦截器
+// axios.interceptors.request.use(function (config) {
+//   // 在发送请求之前做些什么
+//   return config;
+// }, function (error) {
+//   // 对请求错误做些什么
+//   return Promise.reject(error);
+// });
+// 导入封装好的Vue axios插件
+import HttpServer from '@/http.js'
+
+// 导入日期处理格式
 import moment from 'moment'
-// 设置基础url
-axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
-// Vue原型上添加axios属性
-Vue.prototype.$http = axios
+Vue.component(CusBread.name, CusBread)
+Vue.use(HttpServer)
+// 注册过滤器
 Vue.filter('frmdate', (v) => {
   return moment(v).format('YYYY-MM-DD')
 })

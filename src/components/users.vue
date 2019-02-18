@@ -11,7 +11,7 @@
     <!-- 输入框 -->
     <el-row class="margin-T">
       <el-input placeholder="请输入内容" v-model="query" class="input-with-select">
-        <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-button slot="append" icon="el-icon-search" @click="searchUser()"></el-button>
       </el-input>
       <el-button type="success" plain @click="showAddUser()">添加用户</el-button>
     </el-row>
@@ -26,13 +26,19 @@
       </el-table-column>
       <el-table-column prop="address" label="用户状态" width="180">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+          <el-switch @change='currentState(scope.row)' v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
         </template>
       </el-table-column>
       <el-table-column prop="address" label="操作" width="180">
-        <el-button type="primary" icon="el-icon-edit" circle size="mini"></el-button>
-        <el-button type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-        <el-button type="success" icon="el-icon-check" circle size="mini"></el-button>
+        <template slot-scope="scope">
+        <el-button
+        @click='showEditUser(scope.row)' type="primary"  icon="el-icon-edit" circle size="mini"></el-button>
+        <el-button
+        @click='delUser(scope.row)' type="danger"  icon="el-icon-delete" circle size="mini"></el-button>
+        <el-button
+        @click='showRole(scope.row)' type="success" icon="el-icon-check" circle size="mini"></el-button>
+        </template>
+
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -40,13 +46,13 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="pagenum"
-      :page-sizes="[1,2,3,4]"
+      :page-sizes="[1,3,1,4]"
       :page-size="pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
-    <!-- 对话框 -->
-    <el-dialog title="添加用户" :visible.sync="dialogFormVisible">
+    <!-- 添加对话框 -->
+    <el-dialog title="添加用户" :visible.sync="dialogFormVisibleAdd">
       <el-form label-position="left" label-width="80px" :model="formdata">
         <el-form-item label="用户名">
           <el-input v-model="formdata.username"></el-input>
@@ -62,10 +68,51 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+        <el-button type="primary" @click="addUser()" >确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 编辑弹框 -->
+     <el-dialog title="编辑用户" :visible.sync="dialogFormVisibleEdit">
+      <el-form label-position="left" label-width="80px" :model="formdata">
+        <el-form-item label="用户名">
+          <el-input disabled v-model="formdata.username"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="formdata.email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机">
+          <el-input v-model="formdata.mobile"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleEdit = false">取 消</el-button>
+        <el-button type="primary" @click='editAddUser()' >确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 分配角色对话框 -->
+    <el-dialog title="分配角色" :visible.sync="dialogFormVisibleRole">
+  <el-form :model="formdata" label-width="80px">
+    <el-form-item label="用户名" >
+      {{formdata.username}}
+    </el-form-item>
+
+    <!-- 下拉 -->
+    <el-form-item label="角色">
+      {{selectVal}}
+      <el-select v-model="selectVal" placeholder="请选择角色">
+         <el-option disabled label="请选择" :value="-1"></el-option>
+        <!-- label控制能到的文本 -->
+        <el-option v-for= "(item,i) in roles" :key="i" :label="item.roleName" :value="item.id"></el-option>
+      </el-select>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisibleRole = false">取 消</el-button>
+    <el-button type="primary" @click="changeRole()" >确 定</el-button>
+  </div>
+</el-dialog>
   </el-card>
 </template>
 
@@ -76,24 +123,122 @@ export default {
       query: '',
       list: [],
       pagenum: 1,
-      pagesize: 2,
+      pagesize: 4,
       total: -1,
+      roles: [],
       dialogFormVisible: false,
+      dialogFormVisibleRole: false,
+      dialogFormVisibleEdit: false,
+      dialogFormVisibleAdd: false,
       formdata: {
         username: '',
         password: '',
         email: '',
-        mobile: ''
-      }
+        mobile: '',
+        id:''
+      },
+      selectVal: -1
+
     }
   },
   created () {
     this.getTableData()
   },
   methods: {
+    // 点击确定后分配角色 users/:id/role
+    async changeRole () {
+      const res = await this.$http.put(`users/${this.userId}/role`, {
+        rid: this.selectVal
+      })
+      console.log(res)
+      const {meta: {msg, status}} = res.data
+      if (status === 200) {
+        this.$message.success(msg)
+      }
+      this.dialogFormVisibleRole = false
+    },
+    // 点击对勾时弹出角色对话框
+    async showRole (user) {
+      this.userId = user.id
+      this.dialogFormVisibleRole = true
+      this.formdata = user
+      // 获取数据 遍历角色数组
+      const res = await this.$http.get(`roles`)
+      // console.log(res)
+      this.roles = res.data.data
+
+      const res2 = await this.$http.get(`users/${user.id}`)
+      // console.log(res2)
+      this.selectVal = res2.data.data.rid
+    },
+
+    // switchevents 状态开关 change
+    async currentState (user) {
+      // 发送请求 获取用户状态 users/:uId/state/:type
+      const res = await this.$http.put(`users/${user.id}/state/${user.mg_state}`)
+      const {meta: {msg, status}} = res.data
+      if (status === 200) {
+        this.$message.success(msg)
+      }
+    },
+    // 点击对话框确定信息后修改数据
+    async editAddUser () {
+      const res = await this.$http.put(`users/${this.formdata.id}`)
+      const {meta: {msg, status}} = res.data
+      if (status === 200) {
+        this.$message.success(msg)
+        this.dialogFormVisibleEdit = false
+      }
+    },
+    // 点击编辑时显示对话框
+    showEditUser (user) {
+     
+      this.dialogFormVisibleEdit = true
+      this.formdata = user
+    },
+    //   点击操作中的删除绑定事件
+    delUser (user) {
+      this.$confirm('确定要删除这条数据吗?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async () => {
+          // 进到这说明确定要删除 发送请求
+          const res = await this.$http.delete(`users/${user.id}`)
+          const {meta: {msg, status}} = res.data
+          console.log(status)
+          if (status === 200) {
+            // 说明删除成功 重新渲染数据
+            this.$message.success(msg)
+            this.getTableData()
+          }
+        })
+        .catch(() => {
+          this.$message.info('取消删除')
+        })
+    },
+
+    //   点击对话框确定添加用户
+    async addUser () {
+      const res = await this.$http.post(`users`, this.formdata)
+      const {meta: {msg, status}} = res.data
+      if (status === 201) {
+        this.$message.success(msg)
+        this.getTableData()
+        this.formdata = {}
+      }
+      this.this.dialogFormVisibleAdd = false
+    },
+
     //   点击添加用户弹出对话框
     showAddUser () {
       this.dialogFormVisible = true
+    },
+    // 搜索用户
+    searchUser(){
+      
+      this.getTableData()
     },
     handleCurrentChange (val) {
       //   页数改变事件
@@ -108,6 +253,7 @@ export default {
       this.getTableData(val)
     },
     // 获取数据
+    // 测试
     async getTableData () {
       // 必须携带token
       const AUTH_TOKEN = localStorage.getItem('token')
