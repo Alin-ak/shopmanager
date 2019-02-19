@@ -11,7 +11,7 @@
       >
         <el-button slot="append" icon="el-icon-search" @click="searchGoods()"></el-button>
       </el-input>
-      <el-button type="success" plain @click="showAddGoods()">添加商品</el-button>
+      <el-button type="success" plain @click="changePage()">添加商品</el-button>
     </el-row>
 
     <!-- 数据表格 -->
@@ -117,6 +117,7 @@ export default {
     this.getAllGoods();
   },
   methods: {
+<<<<<<< HEAD
 
     //   编辑商品
       showEditGoods(){
@@ -135,6 +136,12 @@ export default {
           this.pagenum =1
           this.getAllGoods()
       },
+=======
+    // 添加商品
+    changePage(){
+         this.$router.push({name:'goodsadd'})   
+    },
+>>>>>>> dev-goods
     // 删除商品
     delGoods(goods) {
       this.$confirm("确定要删吗?", "呵呵", {
@@ -143,6 +150,7 @@ export default {
         type: "warning"
       })
         .then(async () => {
+<<<<<<< HEAD
           const res = await this.$http.delete(`goods/${goods.goods_id}`);
           const {
             meta: { status, msg }
@@ -150,6 +158,14 @@ export default {
           if (status === 200) {
             this.$message.success(msg);
           }
+=======
+            const res = await this.$http.delete(`goods/${goods.goods_id}`)
+            const {meta:{status,msg}} = res.data
+            if(status === 200) {
+                this.$message.success(msg)
+                this.getAllGoods()
+            }
+>>>>>>> dev-goods
         })
         .catch(() => {
           this.$message.info("取消删除");
