@@ -70,6 +70,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
         <el-button type="primary" @click="addUser()" >确 定</el-button>
+<<<<<<< HEAD
       </div>
     </el-dialog>
     <!-- 编辑弹框 -->
@@ -90,6 +91,28 @@
         <el-button type="primary" @click='editAddUser()' >确 定</el-button>
       </div>
     </el-dialog>
+=======
+      </div>
+    </el-dialog>
+    <!-- 编辑弹框 -->
+     <el-dialog title="编辑用户" :visible.sync="dialogFormVisibleEdit">
+      <el-form label-position="left" label-width="80px" :model="formdata">
+        <el-form-item label="用户名">
+          <el-input disabled v-model="formdata.username"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="formdata.email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机">
+          <el-input v-model="formdata.mobile"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleEdit = false">取 消</el-button>
+        <el-button type="primary" @click='editAddUser()' >确 定</el-button>
+      </div>
+    </el-dialog>
+>>>>>>> dev-users
 
     <!-- 分配角色对话框 -->
     <el-dialog title="分配角色" :visible.sync="dialogFormVisibleRole">
@@ -125,19 +148,34 @@ export default {
       pagenum: 1,
       pagesize: 4,
       total: -1,
+<<<<<<< HEAD
       roles: [],
       dialogFormVisible: false,
       dialogFormVisibleRole: false,
       dialogFormVisibleEdit: false,
       dialogFormVisibleAdd: false,
+=======
+      dialogFormVisible: false,
+      dialogFormVisibleAdd: false,
+      dialogFormVisibleEdit: false,
+      dialogFormVisibleRole: false,
+>>>>>>> dev-users
       formdata: {
         username: '',
         password: '',
         email: '',
+<<<<<<< HEAD
         mobile: '',
         id:''
       },
       selectVal: -1
+=======
+        mobile: ''
+      },
+      selectVal: -1,
+      roles: [],
+      userId: -1
+>>>>>>> dev-users
 
     }
   },
@@ -192,7 +230,10 @@ export default {
     },
     // 点击编辑时显示对话框
     showEditUser (user) {
+<<<<<<< HEAD
      
+=======
+>>>>>>> dev-users
       this.dialogFormVisibleEdit = true
       this.formdata = user
     },
@@ -233,6 +274,7 @@ export default {
 
     //   点击添加用户弹出对话框
     showAddUser () {
+<<<<<<< HEAD
       this.dialogFormVisible = true
     },
     // 搜索用户
@@ -240,12 +282,21 @@ export default {
       
       this.getTableData()
     },
+=======
+      this.dialogFormVisibleAdd = true
+    },
+    // 当页数改变时触发事件
+>>>>>>> dev-users
     handleCurrentChange (val) {
       //   页数改变事件
       this.pagenum = 1
       this.pagenum = val
       this.getTableData()
     },
+<<<<<<< HEAD
+=======
+    // 当条目改变时触发
+>>>>>>> dev-users
     handleSizeChange (val) {
       // 条数改变事件
       this.pagesize = 1
@@ -253,7 +304,10 @@ export default {
       this.getTableData(val)
     },
     // 获取数据
+<<<<<<< HEAD
     // 测试
+=======
+>>>>>>> dev-users
     async getTableData () {
       // 必须携带token
       const AUTH_TOKEN = localStorage.getItem('token')
