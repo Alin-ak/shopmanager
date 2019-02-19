@@ -11,7 +11,7 @@ HttpServer.install = function (Vue) {
   // 请求拦截器
   axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
-    console.log(config)
+    // console.log(config)
     if (config.url !== 'login') {
       // 如果请求的路径不是login 那么设置请求头
       const AUTH_TOKEN = localStorage.getItem('token')
