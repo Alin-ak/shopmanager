@@ -27,7 +27,7 @@
       <el-table-column label="操作" width="120">
         <template slot-scope="scope">
           <el-button
-            @click="showEditUser(scope.row)"
+            @click="showEditGoods(scope.row)"
             type="primary"
             icon="el-icon-edit"
             circle
@@ -57,6 +57,45 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
+    
+    <!-- 添加商品对话框 -->
+    <el-dialog title="添加商品" :visible.sync="dialogFormVisibleAdd">
+      <!-- <el-form :model="form">
+        <el-form-item label="活动名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="活动区域" :label-width="formLabelWidth">
+          <el-select v-model="form.region" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form> -->
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisibleAdd = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+
+    <!-- 编辑对话框 -->
+    <el-dialog title="编辑商品" :visible.sync="dialogFormVisibleEdit">
+      <!-- <el-form :model="form">
+        <el-form-item label="活动名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="活动区域" :label-width="formLabelWidth">
+          <el-select v-model="form.region" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form> -->
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleEdit = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisibleEdit = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -69,13 +108,33 @@ export default {
       pagenum: 1,
       pagesize: 7,
       query: "",
-      total: -1
+      total: -1,
+      dialogFormVisibleAdd:false,
+      dialogFormVisibleEdit:false
     };
   },
   created() {
     this.getAllGoods();
   },
   methods: {
+
+    //   编辑商品
+      showEditGoods(){
+          this.dialogFormVisibleEdit = true
+      },
+    //   添加商品
+      showAddGoods() {
+          this.dialogFormVisibleAdd = true
+      },
+    // 清空获取所有商品
+      getAllGoods(){
+          this,getAllGoods()
+      },
+    // 搜索商品
+      searchGoods(){
+          this.pagenum =1
+          this.getAllGoods()
+      },
     // 删除商品
     delGoods(goods) {
       this.$confirm("确定要删吗?", "呵呵", {
@@ -84,14 +143,16 @@ export default {
         type: "warning"
       })
         .then(async () => {
-            const res = await this.$http.delete(`goods/${goods.goods_id}`)
-            const {meta:{status,msg}} = res.data
-            if(status === 200) {
-                this.$message.success(msg)
-            }
+          const res = await this.$http.delete(`goods/${goods.goods_id}`);
+          const {
+            meta: { status, msg }
+          } = res.data;
+          if (status === 200) {
+            this.$message.success(msg);
+          }
         })
         .catch(() => {
-            this.$message.info('取消删除')
+          this.$message.info("取消删除");
         });
     },
     // 每页条目发生变化时
