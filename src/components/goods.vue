@@ -11,7 +11,7 @@
       >
         <el-button slot="append" icon="el-icon-search" @click="searchGoods()"></el-button>
       </el-input>
-      <el-button type="success" plain @click="showAddGoods()">添加商品</el-button>
+      <el-button type="success" plain @click="changePage()">添加商品</el-button>
     </el-row>
 
     <!-- 数据表格 -->
@@ -76,6 +76,12 @@ export default {
     this.getAllGoods();
   },
   methods: {
+    // 添加商品
+    changePage(){
+        this.$router.push({
+            name:'goodsadd'
+        })
+    },
     // 删除商品
     delGoods(goods) {
       this.$confirm("确定要删吗?", "呵呵", {
