@@ -7,7 +7,7 @@ import Rights from '@/components/rights.vue'
 import Roles from '@/components/roles.vue'
 import { MessageBox, Message } from 'element-ui';
 import Goods from '@/components/goods.vue'
-import Goodsadd from '@/components/goodsadd.vue'
+import Goodsadd from '@/components/goodsadd'
 Vue.use(Router)
 
 const router = new Router({

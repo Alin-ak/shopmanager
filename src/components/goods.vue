@@ -78,9 +78,7 @@ export default {
   methods: {
     // 添加商品
     changePage(){
-        this.$router.push({
-            name:'goodsadd'
-        })
+         this.$router.push({name:'goodsadd'})   
     },
     // 删除商品
     delGoods(goods) {
@@ -94,6 +92,7 @@ export default {
             const {meta:{status,msg}} = res.data
             if(status === 200) {
                 this.$message.success(msg)
+                this.getAllGoods()
             }
         })
         .catch(() => {
