@@ -14,7 +14,7 @@
     <el-form label-position="top" label-width="80px" :model="form" class="form">
       <el-tabs @tab-click="changeTab()" v-model="active" tab-position="left">
         <!-- 基本信息 -->
-        <el-tab-pane name="1" label="用户管理">
+        <el-tab-pane name="1" label="基本信息">
           <el-form-item label="商品名称">
             <el-input v-model="form.goods_name"></el-input>
           </el-form-item>
@@ -224,7 +224,6 @@ export default {
           }else {
                 this.arrJt = []
           }
-         
           return
         }
         
