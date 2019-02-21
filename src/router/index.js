@@ -8,6 +8,7 @@ import Roles from '@/components/roles.vue'
 import { MessageBox, Message } from 'element-ui';
 import Goods from '@/components/goods.vue'
 import Goodsadd from '@/components/goodsadd'
+import Params from '@/components/params.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -41,6 +42,11 @@ const router = new Router({
           name: 'goodsadd',
           path: '/goodsadd',
           component: Goodsadd
+        },
+        {
+          name: 'params',
+          path: '/params',
+          component: Params
         }
       ]
     },
