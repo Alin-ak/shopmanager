@@ -23,7 +23,6 @@
               <i class="el-icon-location"></i>
               <span>{{item.authName}}</span>
             </template>
-<<<<<<< HEAD
               <el-menu-item :index="item1.path" v-for="(item1,i) in item.children" :key="item1.id">
                 <i class="el-icon-menu"></i>
                 <span>{{item1.authName}}</span>
@@ -31,7 +30,6 @@
            </el-submenu>
            <!-- 2 -->
             
-=======
             <el-menu-item index="users">
               <i class="el-icon-menu"></i>
               <span>用户列表</span>
@@ -93,7 +91,6 @@
               <span>数据报表</span>
             </el-menu-item>
           </el-submenu>
->>>>>>> dev-users
         </el-menu>
       </el-aside>
       <el-main class="main">
@@ -102,11 +99,8 @@
       </el-main>
     </el-container>
   </el-container>
-<<<<<<< HEAD
 </el-container>
 <!-- 哦 -->
-=======
->>>>>>> dev-users
 </template>
 
 <script>

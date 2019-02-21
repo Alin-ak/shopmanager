@@ -16,7 +16,6 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
-<<<<<<< HEAD
       children: [
         {
           name: 'users',
@@ -44,13 +43,6 @@ const router = new Router({
           component: Goodsadd
         }
       ]
-=======
-      children: [{
-        name: 'users',
-        path: '/users',
-        component: Users
-      }]
->>>>>>> dev-users
     },
     {
       path: '/login',
