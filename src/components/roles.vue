@@ -4,7 +4,7 @@
         <el-button type="success" plain @click="showAddRole()" class="mr">添加角色</el-button>
         <!-- 表格 -->
 
-      <el-table :data="list" style="width: 100%">
+      <el-table :data="list" style="width: 100%" @expand-change=fn>
        <!-- 展开行    一行两列 第二列再分一行两列 比例4：20 -->
       <el-table-column type="expand"  width="80"> 
           <template slot-scope="scope">
@@ -103,6 +103,16 @@ export default {
     },
 
     methods:{
+        // expand-change 当用户对某一行展开或者关闭的时候会触发该事件	
+        fn(row, expandedRows) {
+
+        //    console.log(row); 之前点的那个
+        //    console.log(expandedRows); 新点的包括之前的数组
+            if(expandedRows.length >1) {
+                expandedRows.shift()
+            }
+           
+        },
         // 点确定分配角色 roles/:roleId/rights
        async addRole(){
            const arr1 =this.$refs.treeId.getCheckedKeys()

@@ -228,12 +228,12 @@ export default {
         this.getTableData()
         this.formdata = {}
       }
-      this.this.dialogFormVisibleAdd = false
+      this.dialogFormVisibleAdd = false
     },
 
     //   点击添加用户弹出对话框
     showAddUser () {
-      this.dialogFormVisible = true
+      this.dialogFormVisibleAdd = true
     },
     // 搜索用户
     searchUser(){
