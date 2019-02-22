@@ -18,9 +18,10 @@
     <el-aside class="aside" width="200px">
       <!-- 侧边栏导航 -->
         <el-menu
+          @select="fn"
           router
           unique-opened
-          default-active="2"
+          :default-active="$route.name"
           class="el-menu-vertical-demo"
           >
           <!-- 1 -->
@@ -61,6 +62,11 @@ export default {
     this.changeNav()
   },
   methods: {
+    // 菜单激活回调
+     fn (index, indexPath) {
+       console.log(index)
+       console.log(indexPath)
+    },
     // 动态导航 获取当前用户权限 menus
     async changeNav(){
       const res = await this.$http.get(`menus`)
