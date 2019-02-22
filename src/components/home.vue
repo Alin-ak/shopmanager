@@ -12,11 +12,25 @@
           <a class="exit" href="#" @click.prevent="exitHome()">退出</a>
         </el-col>
       </el-row>
+<<<<<<< HEAD
     </el-header>
     <el-container>
       <el-aside class="aside" width="200px">
         <!-- 侧边栏导航 -->
         <el-menu router unique-opened default-active="2" class="el-menu-vertical-demo">
+=======
+  </el-header>
+  <el-container>
+    <el-aside class="aside" width="200px">
+      <!-- 侧边栏导航 -->
+        <el-menu
+          @select="fn"
+          router
+          unique-opened
+          :default-active="$route.name"
+          class="el-menu-vertical-demo"
+          >
+>>>>>>> dev-goods
           <!-- 1 -->
           <el-submenu :index="item.order+''" v-for="(item,i) in list" :key="item.id">
             <template slot="title">
@@ -117,6 +131,11 @@ export default {
     this.changeNav()
   },
   methods: {
+    // 菜单激活回调
+     fn (index, indexPath) {
+       console.log(index)
+       console.log(indexPath)
+    },
     // 动态导航 获取当前用户权限 menus
     async changeNav(){
       const res = await this.$http.get(`menus`)

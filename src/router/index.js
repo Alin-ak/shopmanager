@@ -9,6 +9,9 @@ import { MessageBox, Message } from 'element-ui';
 import Goods from '@/components/goods.vue'
 import Goodsadd from '@/components/goodsadd'
 import Params from '@/components/params.vue'
+import Categories from '@/components/categories.vue'
+import Orders from '@/components/orders.vue'
+import Reports from '@/components/reports.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -47,6 +50,21 @@ const router = new Router({
           name: 'params',
           path: '/params',
           component: Params
+        },
+        {
+          name: 'categories',
+          path: '/categories',
+          component: Categories
+        },
+        {
+          name: 'orders',
+          path: '/orders',
+          component: Orders
+        },
+        {
+          name: 'reports',
+          path: '/reports',
+          component: Reports
         }
       ]
     },
